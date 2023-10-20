@@ -3,6 +3,8 @@ import { Button, Menu, Table } from 'antd';
 import { useLoaderData, useSubmit } from '@remix-run/react';
 import type { MetaFunction, ActionFunctionArgs } from '@remix-run/node';
 import { PrismaClient } from '@prisma/client';
+
+import { useTranslation } from 'react-i18next';
 const prisma = new PrismaClient();
 
 export const meta: MetaFunction = () => {
@@ -40,6 +42,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 const App: React.FC = () => {
     const data = useLoaderData<typeof loader>();
     const submit = useSubmit();
+    let { t } = useTranslation();
 
     const columns = [
         {
@@ -94,97 +97,6 @@ const App: React.FC = () => {
             label: '成员管理',
             key: 'user',
         },
-        {
-            label: '内容管理',
-            key: '/cms',
-            children: [
-                {
-                    key: '/cms/product_info',
-                    label: '产品信息库',
-                    categorie: '/内容管理/产品信息库/查看',
-                },
-                {
-                    key: '/cms/market_content/education',
-                    label: '营销内容库',
-                    categorie: '/内容管理/营销内容库/查看',
-                },
-            ],
-        },
-        {
-            label: '品牌',
-            categorie: '/品牌/查看',
-            key: '/cms/brand_list/company',
-        },
-        {
-            label: '渠道管理',
-            key: '/channel',
-            children: [
-                {
-                    key: '/channel/list',
-                    categorie: '/渠道管理/渠道列表/查看',
-                    label: '渠道列表',
-                },
-                {
-                    key: '/channel/staff',
-                    categorie: '/渠道管理/渠道人员/查看',
-                    label: '渠道人员',
-                },
-            ],
-        },
-        {
-            label: '内容分发',
-            key: '/pccds',
-            children: [
-                {
-                    key: '/pccds/h5_configuration',
-                    categorie: '/内容分发/H5配置/查看',
-                    label: 'H5配置',
-                },
-            ],
-        },
-        {
-            label: '企业管理',
-            key: '/corp',
-            children: [
-                {
-                    key: '/corp/authz',
-                    categorie: '/企业管理/权限管理/查看',
-                    label: '权限管理',
-                },
-                {
-                    key: '/corp/member',
-                    categorie: '/企业管理/成员管理/查看',
-                    label: '成员管理',
-                },
-                {
-                    key: '/corp/operate_log',
-                    categorie: '/企业管理/操作日志/查看',
-                    label: '操作日志',
-                },
-            ],
-        },
-        {
-            label: '活动专区',
-            key: '/activities',
-            children: [
-                {
-                    key: '/activities/colorful',
-                    categorie: '/活动专区/缤纷活动/查看',
-                    label: '缤纷活动',
-                },
-            ],
-        },
-        {
-            label: '菜单管理',
-            key: '/menu_manage',
-            children: [
-                {
-                    key: '/menu_manage/menu_list',
-                    categorie: '/菜单管理/菜单列表/查看',
-                    label: '菜单列表',
-                },
-            ],
-        },
     ];
 
     return (
@@ -199,7 +111,7 @@ const App: React.FC = () => {
                     textIndent: '24px',
                 }}
             >
-                header
+                header {t('greeting')}
             </div>
             <div>
                 <div style={{ width: 300, float: 'left' }}>
@@ -216,7 +128,7 @@ const App: React.FC = () => {
                     <Button type="primary" onClick={createUser}>
                         新增成员
                     </Button>
-                    <Table dataSource={data} columns={columns} rowKey="id" />;
+                    <Table dataSource={[]} columns={columns} rowKey="id" />;
                 </div>
             </div>
         </>
